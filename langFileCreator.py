@@ -8,7 +8,6 @@ screen = Tk()
 text = ""
 
 screen.title("langEditor")
-screen.geometry("400x400")
 
 
 firstChamp = Entry(screen, exportselection=False)
@@ -30,6 +29,11 @@ c3r1 = None
 c3r2 = None
 c3r3 = None
 
+lIndice1 = None
+lIndice2 = None
+lIndice3 = None
+
+
 def affichageLangFIle():
     global h1
     global h2
@@ -45,11 +49,14 @@ def affichageLangFIle():
     global c3r2
     global c3r3
 
+    global lIndice1
+    global lIndice2
+    global lIndice3
+
     """affichage Fichier Lang"""
 
     file = open(fichier, 'r')
     treederniere = file.readlines()[-3:]
-    print(treederniere)
     dico = {"VarName": [], "USName": [], "FRName": []}
     for i in treederniere:
         txt = ""
@@ -70,23 +77,40 @@ def affichageLangFIle():
             txt += i[indice]
             indice += 1
         dico["FRName"].append(txt)
+    file.close()
+    file = open(fichier, 'r')
+    taille = len(file.readlines())
+    file.close()
 
-    h1 = Label(screen, text='VarName').grid(column=1, row=6)
-    h2 = Label(screen, text='US').grid(column=2, row=6)
-    h3 = Label(screen, text='FR').grid(column=3, row=6)
+    Label(screen, pady=20).grid(column=1, row=0)
+    Label(screen).grid(column=1, row=6)
+    Label(screen).grid(column=1, row=7)
+    Label(screen, padx=20).grid(column=0, row=7)
+    Label(screen, pady=5).grid(column=0, row=12)
+    Label(screen, padx=5).grid(column=5, row=7)
 
-    c1r1 = Label(screen, text=dico["VarName"][0]).grid(column=1, row=7)
-    c1r2 = Label(screen, text=dico["VarName"][1]).grid(column=1, row=8)
-    c1r3 = Label(screen, text=dico["VarName"][2]).grid(column=1, row=9)
+    h1 = Label(screen, text='VarName', bg='red').grid(column=1, row=8)
+    h2 = Label(screen, text='US', bg='red').grid(column=2, row=8)
+    h3 = Label(screen, text='FR', bg='red').grid(column=3, row=8)
 
-    c2r1 = Label(screen, text=dico["USName"][0]).grid(column=2, row=7)
-    c2r2 = Label(screen, text=dico["USName"][1]).grid(column=2, row=8)
-    c2r3 = Label(screen, text=dico["USName"][2]).grid(column=2, row=9)
+    c1r1 = Label(screen, text=dico["VarName"][0]).grid(column=1, row=9)
+    c1r2 = Label(screen, text=dico["VarName"][1]).grid(column=1, row=10)
+    c1r3 = Label(screen, text=dico["VarName"][2]).grid(column=1, row=11)
 
-    c3r1 = Label(screen, text=dico['FRName'][0]).grid(column=3, row=7)
-    c3r2 = Label(screen, text=dico['FRName'][1]).grid(column=3, row=8)
-    c3r3 = Label(screen, text=dico['FRName'][2]).grid(column=3, row=9)
+    c2r1 = Label(screen, text=dico["USName"][0]).grid(column=2, row=9)
+    c2r2 = Label(screen, text=dico["USName"][1]).grid(column=2, row=10)
+    c2r3 = Label(screen, text=dico["USName"][2]).grid(column=2, row=11)
+
+    c3r1 = Label(screen, text=dico['FRName'][0]).grid(column=3, row=9)
+    c3r2 = Label(screen, text=dico['FRName'][1]).grid(column=3, row=10)
+    c3r3 = Label(screen, text=dico['FRName'][2]).grid(column=3, row=11)
+
+    lIndice1 = Label(screen, text=taille-2, padx=20).grid(column=4, row=9)
+    lIndice2 = Label(screen, text=taille-1, padx=20).grid(column=4, row=10)
+    lIndice3 = Label(screen, text=taille, padx=20).grid(column=4, row=11)
+
     # Styliser le tableau + voir si on peut mieux faire en stockant chaque Label dans un tableau pour pouvoir tous les modifier juste avec une boucle surtout pour destroyArray()
+
 
 def destroyArray():
     global h1
@@ -102,6 +126,11 @@ def destroyArray():
     global c3r1
     global c3r2
     global c3r3
+
+    global lIndice1
+    global lIndice2
+    global lIndice3
+
     h1.destroy()
     h2.destroy()
     h3.destroy()
@@ -117,6 +146,10 @@ def destroyArray():
     c3r1.destroy()
     c3r2.destroy()
     c3r3.destroy()
+
+    lIndice1.destroy()
+    lIndice2.destroy()
+    lIndice3.destroy()
 
 
 def getAllEntry():
